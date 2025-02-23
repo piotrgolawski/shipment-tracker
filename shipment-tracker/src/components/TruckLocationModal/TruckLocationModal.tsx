@@ -66,9 +66,11 @@ const TruckLocationModal = ({ isOpen, onClose }: TruckLocationModalProps) => {
                     </GoogleMap>
                 </div>
 
-                <button onClick={onClose} className="mt-4 px-4 py-2 bg-red-500 text-white rounded">
-                    Close
-                </button>
+                <div className="flex justify-end mt-4">
+                    <button onClick={onClose} className="px-4 py-2 bg-red-500 text-white rounded">
+                        Close
+                    </button>
+                </div>
             </div>
         </Modal>
     );
