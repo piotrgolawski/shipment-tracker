@@ -45,8 +45,8 @@ No auth is required.
     }
 
 If frontend and backend is working, you should perceive a change in location, this is made using websocket.
-Frontend (in modal window) in subscribing our backend socket. 
+Frontend (in modal window) is subscribing our backend socket. 
 
 # Additional files
-- [What could be done more (or better)](./TODO.md)
+- [What could be done more (or better)](./shipment-tracker/TODO.md)
 
