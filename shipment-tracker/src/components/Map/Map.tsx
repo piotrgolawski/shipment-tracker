@@ -2,35 +2,42 @@ import { GoogleMap, DirectionsRenderer } from "@react-google-maps/api";
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { RouteContext } from "../../context/RouteContext";
 import { DEFAULT_CENTER } from "../../config/defaults";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
-const Map = ({isLoaded} : {isLoaded: boolean}) => {
-    const { start, end, waypoints} = useContext(RouteContext);
-
+const Map = ({ isLoaded }: { isLoaded: boolean }) => {
+    const { start, end, waypoints } = useContext(RouteContext);
     const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
+    const [distance, setDistance] = useState<string | null>(null);
+    const [duration, setDuration] = useState<string | null>(null);
 
     const fetchDirections = useCallback(() => {
         if (!start || !end) {
             setDirections(null);
+            setDistance(null);
+            setDuration(null);
             return;
         }
 
         const directionsService = new google.maps.DirectionsService();
         directionsService.route(
             {
-                origin: start, 
+                origin: start,
                 destination: end,
                 waypoints: (waypoints || []).map((wp) => ({ location: wp, stopover: true })),
                 travelMode: google.maps.TravelMode.DRIVING,
             },
             (result, status) => {
-                if (status === google.maps.DirectionsStatus.OK) {
+                if (status === google.maps.DirectionsStatus.OK && result) {
                     setDirections(result);
+                    const leg = result.routes[0]?.legs[0];
+                    if (leg) {
+                        setDistance(leg.distance?.text || "");
+                        setDuration(leg.duration?.text || "");
+                    }
                 } else {
-                    let message = status.toString()
-                    // TODO translate more of those results
+                    let message = status.toString();
                     if (status === google.maps.DirectionsStatus.ZERO_RESULTS) {
-                        message = "No results for given path"
+                        message = "No results for given path";
                     }
                     toast.error(message);
                 }
@@ -51,6 +58,9 @@ const Map = ({isLoaded} : {isLoaded: boolean}) => {
             <GoogleMap mapContainerClassName="w-full h-full" center={start || DEFAULT_CENTER} zoom={10}>
                 {directions && <DirectionsRenderer directions={directions} />}
             </GoogleMap>
+            <div id='distance' className="mt-2 text-sm text-gray-700">
+                {distance && duration && <p>Distance: {distance} | Duration: {duration}</p>}
+            </div>
         </div>
     );
 };
