@@ -14,7 +14,7 @@ const default_lat = 54.4959
 const default_lng = 18.5386
 
 jest.mock("@react-google-maps/api", () => {
-    const DEFAULT_CENTER = { lat: 54.4959, lng: 18.5386 };
+    const DEFAULT_CENTER = { lat: default_lat, lng: default_lng };
     return {
         useJsApiLoader: () => ({ isLoaded: true, loadError: false }),
         Autocomplete: ({

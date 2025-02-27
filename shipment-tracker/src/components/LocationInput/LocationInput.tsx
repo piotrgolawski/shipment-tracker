@@ -11,8 +11,8 @@ interface Props {
 
 const LocationInput: React.FC<Props> = ({ label, onPlaceSelected, onPlaceRemove }) => {
     const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
-    const [currentPlace, setCurrentPlace] = useState<google.maps.LatLngLiteral | null>(null); // Store lat/lng
-    const [inputValue, setInputValue] = useState<string>(''); // Store the string (address/label)
+    const [currentPlace, setCurrentPlace] = useState<google.maps.LatLngLiteral | null>(null);
+    const [inputValue, setInputValue] = useState<string>('');
 
     const onLoad = useCallback((autoC: google.maps.places.Autocomplete) => {
         setAutocomplete(autoC);
@@ -35,7 +35,7 @@ const LocationInput: React.FC<Props> = ({ label, onPlaceSelected, onPlaceRemove 
                 };
                 onPlaceSelected(location);
                 setCurrentPlace(location);
-                setInputValue(place.formatted_address || ''); // Update input value with the place's name
+                setInputValue(place.formatted_address || '');
             } else {
                 handleClear()
             }

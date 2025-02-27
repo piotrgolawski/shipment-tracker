@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteProvider } from "./context/RouteContext";
 import Home from "./pages/Home";
-import {ToastContainer} from "react-toastify"; // Make sure this import is correct
+import {ToastContainer} from "react-toastify";
 
 function App() {
     return (
